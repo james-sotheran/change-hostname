@@ -1,2 +1,6 @@
 # change-hostname
-Hostname Change for Linux
+Hostname Changer for Linux
+
+type:
+  cd change-hostname
+  sudo python change-hostname.py
