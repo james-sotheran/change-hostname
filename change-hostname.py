@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # Author: James S
-# Version: 1.0
+# Version: 1.1
 
 import os, subprocess, sys
 from time import sleep
@@ -104,20 +104,25 @@ try: # This is so exit message is displayed on KeyboardInterrupt
 		if new_hostname.rstrip("\n") == check_hostname1.rstrip("\n") and new_hostname.rstrip("\n") == check_hostname2.rstrip("\n"):
 			print ("\n%s%sYour host name has been changed successfully :)%s\n") % (GREEN, BOLD, END)
 			print ("%sDo you want to restart your network-manager to fully change your hostname?%s%s (recommended)%s (Y/n)%s") % (RED,BOLD, YELLOW, BLUE, END)
-			network_reset = raw_input (BOLD + "> " + END)
-			# Restarts network-manager so changes appear on network
-			if network_reset == "Y" or network_reset == "y" or network_reset == "":
-				print ("\n%s%sRestarting network-manager...%s") % (BOLD, PURPLE, END)
-				os.system("service network-manager restart")
-				sleep(2)
-				print ("\n%s%sDONE!%s") % (GREEN, BOLD, END)
-				sleep(2)
-				os.system("clear")
-			else:
-				sleep(1)
-				print ("\n%sYou will need to manually do this for the change to be visible.") % (RED)
-				print ("%s%sTry disconnecting and reconnecting to the access point%s") % (BOLD, GREEN, END)
-				sleep(3)
+			while True:
+				network_reset = raw_input (BOLD + "> " + END)
+				# Restarts network-manager so changes appear on network
+				if network_reset == "Y" or network_reset == "y" or network_reset == "":
+					print ("\n%s%sRestarting network-manager...%s") % (BOLD, PURPLE, END)
+					os.system("service network-manager restart")
+					sleep(2)
+					print ("\n%s%sDONE!%s") % (GREEN, BOLD, END)
+					sleep(2)
+					os.system("clear")
+					break
+				elif network_reset == "n" or network_reset == "N":
+					sleep(1)
+					print ("\n%sYou will need to manually do this for the change to be visible.") % (RED)
+					print ("%s%sTry disconnecting and reconnecting to the access point%s") % (BOLD, GREEN, END)
+					sleep(3)
+					break
+				else:
+					print "\n%s%sPlease select a valid option.\n%s" % (BOLD, GREEN, END)
 		else:
 			print ("\n%s%sError: %sUnable to change hostname. Try again%s") % (RED, BOLD, BLUE, END)
 		
@@ -125,4 +130,3 @@ try: # This is so exit message is displayed on KeyboardInterrupt
 except KeyboardInterrupt: # Exit message if KeyboardInterrupt
 	print ("\n\n%s%sExiting...%s\n") % (BOLD, RED, END)
 	sleep(0.5)
-
